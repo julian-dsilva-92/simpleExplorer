@@ -15,7 +15,6 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 
 public class MainActivity extends ListActivity {
@@ -36,8 +35,6 @@ public class MainActivity extends ListActivity {
 
 
         String basedir = Environment.getExternalStorageDirectory().toString();
-
-        System.out.println(basedir);
 
         if (getIntent().hasExtra("filePath")) {
             basedir = getIntent().getStringExtra("filePath");
@@ -111,15 +108,11 @@ public class MainActivity extends ListActivity {
         button.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View v) {
-
-                System.out.println("Back button was clicked and detected");
                 clicked = true;
-
                 if (clicked){
                     openFilepath = String.join("/", al );
                     intoDirpath = "";
                     Listernerpath = "";
-                    System.out.println("openfilepath is " + openFilepath);
                     goBack();
                     clicked = false;
                 }
