@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.Environment;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import java.io.BufferedReader;
@@ -15,6 +14,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class MainActivity extends ListActivity {
@@ -26,29 +26,27 @@ public class MainActivity extends ListActivity {
     String  openFilepath = Environment.getExternalStorageDirectory().toString() + "/" + String.join("/", al );
     String intoDirpath = Environment.getExternalStorageDirectory().toString() + "/";
     String Listernerpath = intoDirpath;
-
+    public static String basedir = Environment.getExternalStorageDirectory().toString();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
-        String basedir = Environment.getExternalStorageDirectory().toString();
+        basedir = Environment.getExternalStorageDirectory().toString();
 
         if (getIntent().hasExtra("filePath")) {
             basedir = getIntent().getStringExtra("filePath");
 
-
             if (basedir.startsWith(Environment.getExternalStorageDirectory().toString() + "/") == false) {
-                basedir = Environment.getExternalStorageDirectory().toString() + "/" + basedir;
+                basedir= Environment.getExternalStorageDirectory().toString() + "/" + basedir;
             }
 
         }
 
        File path = new File(basedir);
 
-        ArrayList files = new ArrayList();
+        List<String> files = new ArrayList<String>();
         File dir = new File (path.toString());
         String[] list = dir.list();
         if (list != null) {
@@ -57,14 +55,14 @@ public class MainActivity extends ListActivity {
             }
         }
 
-        // Put the data into the list
-        ArrayAdapter adapter = new ArrayAdapter(this,
-                android.R.layout.simple_list_item_2, android.R.id.text1, files);
 
-           setListAdapter(adapter);
+
+        String[] stringArray = files.toArray(new String[files.size()]);
+
+        //using my own custom adapter to show icons
+        setListAdapter(new myVieweradapter(this, stringArray));
 
         }
-
 
     @Override
     protected void onListItemClick(ListView l, View v, int position, long id) {
